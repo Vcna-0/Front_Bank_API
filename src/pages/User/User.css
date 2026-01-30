@@ -1,0 +1,17 @@
+.main {
+  flex: 1;
+}
+
+.bg-dark {
+  background-color: var(--color-background-dark);
+}
+
+.header {
+  color: var(--color-white);
+  margin-bottom: 2rem;
+}
+
+.header .button--cta {
+  width: auto;
+  padding: 10px;
+}
