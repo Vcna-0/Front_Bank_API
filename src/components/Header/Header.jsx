@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import './Header.css';
 
 function Header({ isLoggedIn = false, userName = '' }) {
+
   return (
     <nav className="main-nav">
       <Link className="main-nav-logo" to="/">
@@ -19,7 +20,7 @@ function Header({ isLoggedIn = false, userName = '' }) {
               <i className="fa fa-user-circle"></i>
               {userName}
             </Link>
-            <Link className="main-nav-item" to="/">
+            <Link className="main-nav-item" to="/sign-in" onClick={() => localStorage.removeItem('token')}>
               <i className="fa fa-sign-out"></i>
               Sign Out
             </Link>
