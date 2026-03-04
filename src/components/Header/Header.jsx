@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import './Header.css';
 
+
 function Header({ isLoggedIn = false, userName = '' }) {
+
+  const userProfile = useSelector((state) => state.user);
 
   return (
     <nav className="main-nav">
@@ -18,7 +22,7 @@ function Header({ isLoggedIn = false, userName = '' }) {
           <>
             <Link className="main-nav-item" to="/user">
               <i className="fa fa-user-circle"></i>
-              {userName}
+              {userProfile?.firstName || userName}
             </Link>
             <Link className="main-nav-item" to="/sign-in" onClick={() => localStorage.removeItem('token')}>
               <i className="fa fa-sign-out"></i>

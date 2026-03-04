@@ -1,5 +1,9 @@
 import Account from '../../components/Account/Account';
 import Button from '../../components/Button/Button';
+import { getUserProfile } from '../../services/apiService';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserProfile } from '../../features/user/userSlice';
 import './User.css';
 
 const accounts = [
@@ -21,10 +25,17 @@ const accounts = [
 ];
 
 function User() {
+  const dispatch = useDispatch()
+  const userProfile = useSelector((state) => state.user);
+
+  useEffect(() => {
+    getUserProfile().then((data) => dispatch(setUserProfile(data))).catch(console.error)
+  }, [])
+  
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
+        <h1>Welcome back<br />{userProfile?.firstName} {userProfile?.lastName}</h1>
         <Button variant="cta">Edit Name</Button>
       </div>
       <h2 className="sr-only">Accounts</h2>

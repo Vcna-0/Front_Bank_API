@@ -26,8 +26,7 @@ async function getUserProfile() {
    const data = await authFetch('/user/profile', {
       method: 'POST',
    })
-   localStorage.setItem('firstName', data.body.firstName)
-   return data
+   return data.body
 }
 
 export { login, getUserProfile }
