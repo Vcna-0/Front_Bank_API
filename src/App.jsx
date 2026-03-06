@@ -5,10 +5,10 @@ import Home from './pages/Home/Home';
 import SignIn from './pages/SignIn/SignIn';
 import User from './pages/User/User';
 import ProtectedRoute from './ProtectedRoute';
-import useAuth from './hooks/useAuth'
+import { useSelector } from 'react-redux';
 
 function App() {
-const { isAuthenticated } = useAuth()
+const isAuthenticated = useSelector((state) => !!state.user.firstName);
 
   return (
     <Router>

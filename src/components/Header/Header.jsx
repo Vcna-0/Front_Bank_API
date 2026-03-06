@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { clearUserProfile } from '../../features/user/userSlice';
+import { useDispatch } from 'react-redux';
 import './Header.css';
 
 
 function Header({ isLoggedIn = false, userName = '' }) {
+  const dispatch = useDispatch();
 
   const userProfile = useSelector((state) => state.user);
 
@@ -24,7 +27,10 @@ function Header({ isLoggedIn = false, userName = '' }) {
               <i className="fa fa-user-circle"></i>
               {userProfile?.firstName || userName}
             </Link>
-            <Link className="main-nav-item" to="/sign-in" onClick={() => localStorage.removeItem('token')}>
+            <Link className="main-nav-item" to="/sign-in" onClick={() => {
+              dispatch(clearUserProfile());
+              localStorage.removeItem('token')
+            }}>
               <i className="fa fa-sign-out"></i>
               Sign Out
             </Link>
