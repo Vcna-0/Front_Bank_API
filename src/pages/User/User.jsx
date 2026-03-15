@@ -1,5 +1,10 @@
 import Account from '../../components/Account/Account';
 import Button from '../../components/Button/Button';
+import EditNameModal from '../../components/EditNameModal/EditNameModal';
+import { getUserProfile, updateUserProfile} from '../../services/apiService';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserProfile } from '../../features/user/userSlice';
 import './User.css';
 
 const accounts = [
@@ -21,12 +26,43 @@ const accounts = [
 ];
 
 function User() {
+  const dispatch = useDispatch()
+  const userProfile = useSelector((state) => state.user);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    getUserProfile().then((data) => dispatch(setUserProfile(data))).catch(console.error)
+  }, [])
+
+  const handleSave = async (_firstName, _lastName) => {
+    const data = {
+      firstName: _firstName,
+      lastName: _lastName
+    }
+
+    try {
+      await updateUserProfile(data.firstName, data.lastName);
+      dispatch(setUserProfile(data))
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error during name update:', error)
+    }
+  }
+
+
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
-        <Button variant="cta">Edit Name</Button>
+        <h1>Welcome back<br />{userProfile?.firstName} {userProfile?.lastName}</h1>
+        <Button variant="cta" onClick={() => setIsModalOpen(true)}>Edit Name</Button>
       </div>
+      <EditNameModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSave}
+        initialFirstName={userProfile?.firstName}
+        initialLastName={userProfile?.lastName}
+      />
       <h2 className="sr-only">Accounts</h2>
       {accounts.map((account, index) => (
         <Account

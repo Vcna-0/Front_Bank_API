@@ -4,15 +4,19 @@ import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
 import SignIn from './pages/SignIn/SignIn';
 import User from './pages/User/User';
+import ProtectedRoute from './ProtectedRoute';
+import { useSelector } from 'react-redux';
 
 function App() {
+const isAuthenticated = useSelector((state) => !!state.user.firstName);
+
   return (
     <Router>
-      <Header />
+      <Header isLoggedIn={isAuthenticated} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/user" element={<User />} />
+         <Route path="/user" element={<ProtectedRoute><User /></ProtectedRoute>} />
       </Routes>
       <Footer />
     </Router>
