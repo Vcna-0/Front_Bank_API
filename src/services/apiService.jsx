@@ -29,4 +29,12 @@ async function getUserProfile() {
    return data.body
 }
 
-export { login, getUserProfile }
+async function updateUserProfile(firstName, lastName) {
+   const data = await authFetch('/user/profile', {
+      method: 'PUT',
+      body: JSON.stringify({ firstName, lastName }),
+   })
+   return data.body
+}
+
+export { login, getUserProfile, updateUserProfile }
