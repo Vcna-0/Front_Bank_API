@@ -25,7 +25,7 @@ function Header({ isLoggedIn = false, userName = '' }) {
           <>
             <Link className="main-nav-item" to="/user">
               <i className="fa fa-user-circle"></i>
-              {userProfile ? `${userProfile.firstName} ${userProfile.lastName}` : userName}
+              {userProfile.firstName ? `${userProfile.firstName} ${userProfile.lastName}` : 'Chargement...'}
             </Link>
             <Link className="main-nav-item" to="/sign-in" onClick={() => {
               dispatch(clearUserProfile());

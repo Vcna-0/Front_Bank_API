@@ -29,9 +29,10 @@ function User() {
   const dispatch = useDispatch()
   const userProfile = useSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [profileError, setProfileError] = useState(false);
 
   useEffect(() => {
-    getUserProfile().then((data) => dispatch(setUserProfile(data))).catch(console.error)
+    getUserProfile().then((data) => dispatch(setUserProfile(data))).catch(() => setProfileError(true))
   }, [])
 
   const handleSave = async (_firstName, _lastName) => {
@@ -45,7 +46,8 @@ function User() {
       dispatch(setUserProfile(data))
       setIsModalOpen(false);
     } catch (error) {
-      console.error('Error during name update:', error)
+      setProfileError(true);
+      console.error('Failed to update profile:', error);
     }
   }
 
@@ -53,7 +55,8 @@ function User() {
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />{userProfile?.firstName} {userProfile?.lastName}</h1>
+        <h1>Welcome back<br />{userProfile.firstName ? `${userProfile.firstName} ${userProfile.lastName}` : 'Chargement...'}</h1>
+        {profileError && <p>Impossible de modifier le profil.</p>}
         <Button variant="cta" onClick={() => setIsModalOpen(true)}>Edit Name</Button>
       </div>
       <EditNameModal
