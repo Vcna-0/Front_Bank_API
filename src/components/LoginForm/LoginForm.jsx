@@ -3,8 +3,11 @@ import Button from '../Button/Button';
 import './LoginForm.css';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/apiService';
+import { useDispatch } from 'react-redux';
+import { setAuthentication } from '../../features/user/userSlice';
 
 function LoginForm() {
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -16,7 +19,9 @@ function LoginForm() {
     try {
       console.log('Submitting login form with:', { email, password })
       await login(email, password)
+      dispatch(setAuthentication(true));
       navigate('/user');
+      
     } catch (error) {
       console.error('Error during login:', error)
     }

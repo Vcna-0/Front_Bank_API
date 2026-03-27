@@ -8,7 +8,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { useSelector } from 'react-redux';
 
 function App() {
-const isAuthenticated = useSelector((state) => !!state.user.firstName);
+const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   return (
     <Router>
